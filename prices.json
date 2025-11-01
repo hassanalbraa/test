@@ -1,0 +1,13 @@
+{
+  "PUBG": [
+    {"amount":60,"priceEGP":55,"priceSDG":3000,"currency":"شدة"},
+    {"amount":125,"priceEGP":115,"priceSDG":6000,"currency":"شدة"},
+    {"amount":300,"priceEGP":280,"priceSDG":14000,"currency":"شدة"}
+  ],
+  "Free Fire": [
+    {"amount":100,"priceEGP":55,"priceSDG":3500,"currency":"💎"},
+    {"amount":210,"priceEGP":110,"priceSDG":7000,"currency":"💎"},
+    {"amount":530,"priceEGP":270,"priceSDG":17500,"currency":"💎"},
+    {"amount":1080,"priceEGP":550,"priceSDG":35000,"currency":"💎"}
+  ]
+}
