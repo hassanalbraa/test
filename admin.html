@@ -13,52 +13,25 @@ textarea {width:100%; height:400px; background:#0b0f1a; color:#fff; border:none;
 <h1>إدارة الأسعار</h1>
 <p>عدل JSON ثم احفظ التغييرات:</p>
 <textarea id="jsonData"></textarea><br>
-<label>GitHub Personal Access Token: </label>
-<input type="password" id="token" placeholder="ضع التوكن هنا"><br>
-<button onclick="saveData()">حفظ على GitHub</button>
+<button onclick="saveData()">حفظ التغييرات محلياً</button>
 
 <script>
-const owner = 'hassanalbraa';  // حسابك على GitHub
-const repo = 'texas.store1';   // اسم الريبو
-const path = 'prices.json';     // مسار الملف
-let sha = '';                   // لتخزين SHA الخاص بالملف
-
-// تحميل JSON من GitHub وعرضه
-fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`)
+// تحميل JSON مباشرة من نفس المجلد
+fetch('prices.json')
   .then(res => res.json())
   .then(data => {
-    sha = data.sha;
-    const content = atob(data.content);
-    document.getElementById('jsonData').value = content;
+    document.getElementById('jsonData').value = JSON.stringify(data, null, 2);
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error("فشل تحميل الأسعار:", err));
 
+// حفظ التعديلات محلياً (يمكنك نسخ JSON المعدل وإعادة رفعه إلى GitHub)
 function saveData(){
   const updated = document.getElementById('jsonData').value;
-  const token = document.getElementById('token').value.trim();
-  if(!token){ alert('ضع GitHub Token'); return; }
-
-  try{ JSON.parse(updated); }
+  try { JSON.parse(updated); }
   catch(e){ alert("خطأ في JSON: " + e.message); return; }
 
-  fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'token ' + token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: "تحديث الأسعار من صفحة الإدارة",
-      content: btoa(updated),
-      sha: sha
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if(data.content){ alert("تم حفظ التغييرات بنجاح!"); sha = data.content.sha; }
-    else { console.error(data); alert("حدث خطأ عند الحفظ"); }
-  })
-  .catch(err => console.error(err));
+  // نسخة بسيطة للحفظ: فقط عرض رسالة النجاح
+  alert("تم تعديل البيانات بنجاح! الآن انسخ النص وأعد رفع prices.json إلى الريبو.");
 }
 </script>
 </body>
